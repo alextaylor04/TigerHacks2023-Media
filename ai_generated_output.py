@@ -4,7 +4,7 @@ API_KEY = 2#open("API_KEY", "r").read() FIXME: CHANGE BACK TO API_KEY
 openai.api_key = API_KEY
 
 def playlist_img(themes):
-    image_resp = openai.Image.create(prompt=themes, n=4, size="512x512")
+    image_resp = openai.Image.create(prompt=themes, n=4, size="512x512") #n=num images generated
     return image_resp
 
 def playlist_theme(song_names):
@@ -15,7 +15,6 @@ def playlist_theme(song_names):
         ]
     )
     return response
-
 
 def convert_to_prompt(song_names):
     num_songs = len(song_names)
