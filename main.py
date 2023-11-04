@@ -9,4 +9,4 @@ y = json.loads(x)
 
 @app.route('/')
 def test():
-    return y 
+    return y
