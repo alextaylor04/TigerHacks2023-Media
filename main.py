@@ -1,72 +1,58 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session, request, redirect
+from flask_session import Session
+from dotenv import load_dotenv
+import os
 import ai_generated_output
 import lyrics
 import time
+import spotipy
 
-app = Flask(__name__, template_folder='templates')
+load_dotenv('spotipy.env')
+
+app = Flask(__name__, template_folder='templates', static_url_path='/static')
+app.config['SECRET_KEY'] = os.urandom(64)
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_FILE_DIR'] = './.flask_session/'
+Session(app)
 
 @app.route('/')
-def render():
-    return render_template("index.html")
+def index():
+    cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
+    auth_manager = spotipy.oauth2.SpotifyOAuth(scope='user-read-currently-playing playlist-modify-private',
+                                              cache_handler=cache_handler,
+                                               show_dialog=True)
+    if request.args.get("code"):
+        # Step 2. Being redirected from Spotify auth page
+        auth_manager.get_access_token(request.args.get("code"))
+        return redirect('/')
 
-start_time = time.time()
-lyrics.top_50_occurences("""Just a young gun with a quick fuse
-I was uptight, wanna let loose
-I was dreaming of bigger things and
-Wanna leave my own life behind
-Not a "Yes, sir", not a follower
-Fit the box, fit the mold, have a seat
-In the foyer, take a number
-I was lightning before the thunder (thunder)
-Thunder, thunder, thun-
-Thunder, th-th-thunder, thunder
-Thunder, thunder, thun-
-Thunder, th-th-thunder, thunder
-Thunder, feel the thunder (thun-, thun-)
-Lightning then the thunder (th-th-thunder, thunder)
-Thunder, feel the thunder (thun-, thun-)
-Lightning then the thunder, thunder (th-th-thunder, thunder)
-Thunder
-Thunder
-Kids were laughing in my classes
-While I was scheming for the masses
-Who do you think you are?
-Dreaming 'bout being a big star
-They say, "You're basic", they say, "You're easy"
-You're always riding in the backseat
-Now I'm smiling from the stage while
-You were clapping in the nosebleeds
-Thunder, thunder, thun-
-Thunder, th-th-thunder, thunder
-Thunder, thunder, thun-
-Thunder, th-th-thunder, thunder
-Thunder, feel the thunder (thun-, thun-)
-Lightning then the thunder (th-th-thunder, thunder)
-Thunder, feel the thunder (thun-, thun-)
-Lightning then the thunder, thunder (th-th-thunder, thunder)
-Thunder, feel the thunder
-Lightning then the thunder, thunder
-Thunder, feel the thunder (thun-, thun-)
-Lightning then the thunder, thunder (th-th-thunder, thunder)
-Thunder, feel the thunder (thun-, thun-)
-Lightning then the thunder, thunder (th-th-thunder, thunder)
-Thunder, feel the thunder (never give up, never give up)
-Lightning then the thunder, thunder (never give up on your dreams)
-Thunder, feel the thunder (never give up, never give up)
-Lightning then the thunder, thunder (never give up on your dreams)
-Thunder, thunder, thun-
-Thunder, th-th-thunder, thunder
-Thunder, thunder, thun-
-Thunder, th-th-thunder, thunder
-thunder, thunder, thun-
-Thunder, th-th-thunder, thunder
-(Whoa-oh-oh) thunder, thunder, thun-
-Thunder, th-th-thunder, thunder
-""")
-print(f'Exeuction time: {time.time() - start_time:.5f}')
+    if not auth_manager.validate_token(cache_handler.get_cached_token()):
+        # Step 1. Display sign in link when no token
+        auth_url = auth_manager.get_authorize_url()
+        return f'<h2><a href="{auth_url}">Sign in</a></h2>'
 
-songs = ['bad blood', 'life is a highway', 'never gonna give you up']
-print(ai_generated_output.convert_to_prompt(songs))
+    # Step 3. Signed in, display data
+    spotify = spotipy.Spotify(auth_manager=auth_manager)
+    playlist(spotify)
+    return render_template('index.html', test=1234)
+
+def playlist(spotify):
+    results = spotify.current_user_playlists(limit=50)
+    for i, item in enumerate(results["items"]):
+        print("%d %s" % (i, item["name"]))
+        id = item["id"]
+        print(f'URL: {spotify.playlist_cover_image(id)}')
+
+if __name__ == '__main__':
+    app.debug = True
+    app.run()
+
+
+
+
+#songs = ['bad blood', 'life is a highway', 'never gonna give you up']
+#print(ai_generated_output.convert_to_prompt(songs))
+
 
 
 
