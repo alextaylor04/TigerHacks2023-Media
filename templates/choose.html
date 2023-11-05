@@ -4,13 +4,9 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="/static/style2.css">
         <img id="Image1" style="display: none;" crossorigin src=""/>
-        <script type="text/javascript"> // to transfer variables from flask to js
-            var top_50_lyrics = {{top_50_lyrics | tojson}}
-        
-        </script>
         <canvas id="canvas" width="1200" height="3600"></canvas>
         <script src="https://code.jquery.com/jquery-2.1.0.js"></script> 
-        <script type="text/javascript" src="{{ url_for('static', filename='lyricscript.js')}}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='choosescript.js')}}"></script>
     </head>
     <body>
     </body>

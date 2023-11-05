@@ -13,6 +13,15 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = './.flask_session/'
 Session(app)
 
+class SpotifyCache:
+    spotify = None
+    def __init__(self, spotify):
+        SpotifyCache.spotify = spotify
+class PlaylistIndexCache:
+    index = None
+    def __init__(self, index_var):
+        PlaylistIndexCache.index = index_var
+
 @app.route('/')
 def index():
     cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
@@ -30,18 +39,26 @@ def index():
         return f'<h2><a href="{auth_url}">Sign in</a></h2>'
 
     # Step 3. Signed in, display data
+
     spotify = spotipy.Spotify(auth_manager=auth_manager)
-    cached_playlist_data.CachedPlaylistData(spotify, 0)
+    SpotifyCache(spotify)
     cached_playlist_data.spotify_api.playlist_cover_images(spotify)
     return render_template('index1.html',  username=spotify.me()["display_name"], playlist_names=cached_playlist_data.spotify_api.playlist_names(spotify), 
                            playlist_num_tracks=cached_playlist_data.spotify_api.num_songs_in_playlists(spotify), playlist_cover_images=cached_playlist_data.spotify_api.playlist_cover_images(spotify))
 
 @app.route('/lyrics')
 def lyrics():
-    return render_template('lyrics.html')
+    cached_playlist_data.CachedPlaylistData.cache_top_50_lyrics(SpotifyCache.spotify, PlaylistIndexCache.index)
+    return render_template('lyrics.html', top_50_lyrics=cached_playlist_data.CachedPlaylistData.top_50_lyrics)
 @app.route('/playlistmood')
 def mood():
+    cached_playlist_data.CachedPlaylistData.cache_open_ai_theme(SpotifyCache.spotify, PlaylistIndexCache.index)
+    cached_playlist_data.CachedPlaylistData.cache_open_ai_images(SpotifyCache.spotify, PlaylistIndexCache.index)
     return render_template('mood.html')
+
+@app.route('/choosecontent')
+def choose_content():
+    return render_template('choose.html')
 
 @app.route('/process', methods=['POST']) 
 def process(): 
@@ -49,9 +66,7 @@ def process():
     # process the data using Python code 
     result = int(data)
     print(result)
-    cached_playlist_data.CachedPlaylistData(None, result)
-
-    print(cached_playlist_data.CachedPlaylistData.top_50_lyrics)
+    PlaylistIndexCache(result)
     return str(result) 
 
 

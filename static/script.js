@@ -6,7 +6,7 @@ var tempImages = playlist_cover_images;
 var playlist = [];
 var songnum = [];
 var playlistnum = [];
-var images = ["", "", "", "", "", "", "", "", "", ""];
+var images = [];
 for (var i = 0; i < tempPlaylist.length; i++) {
     if (tempsongnum[i] > 0) {
         playlist.push(tempPlaylist[i]);
@@ -34,24 +34,10 @@ var canvasx = Math.round(cRect.left)
 var canvasy = Math.round(cRect.top)
 var page = 1;
 var currentplaylist = 0; 
-// currentplaylist = playlistnum[playlist.indexOf("fellow")]
-var dict = {"test": 20, "Jimmy": 10, "timmy": 10, "kimmy": 10, "bimmy": 10, "cimmy": 10, "himmy": 9, "aimmy": 8, "limmy": 7};
-var words = [];
-var numberofwords = [];
-var num1 = 0;
-var num2 = 0;
-var num3 = 0;
-var plotsize = 250;
-var plotlist = [];
-var counter = 0;
-for (var key in dict) {
-  words.push(key);
-}
-for (var i = 0; i < words.length; i++) {
-    numberofwords.push(dict[words[i]]);
-}
+// currentplaylist = playlistnum[i]
 
-console.log(words);
+
+
 
 var circle = function (x, y, radius, fillCircle) {
     ctx.beginPath(); 
@@ -256,11 +242,9 @@ var pagerunner = function () {
     ctx.font = "15px Arial";
     ctx.fillStyle = "lightblue";
     ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = "darkblue";
-    circle(200, 1000 + (playlength - 2) * 200, 20, true)
-    ctx.fillStyle = "blue";
-    circle(200, 1000 + (playlength - 2) * 200, 14, true)
-    ctx.fillText("Enter What we do here", 250, 1005 + (playlength - 2) * 200);
+    ctx.font = "25px Arial"
+    ctx.fillSyle = "black";
+    ctx.fillText("Brought to you by Music Unmasked", 100, 1400);
     ctx.font = "50px Arial";
     ctx.fillStyle = "black";
     ctx.fillText("Hello ", width / 2 - ctx.measureText("Hello").width / 2, 80);
@@ -269,67 +253,7 @@ var pagerunner = function () {
     playlistbox((width - 700) / 2, 300 + i * 200, 700, 150, i);
     imageloader();
     }
-    } else if (page == 2) {
-        ctx.fillStyle = "lightblue";
-        ctx.fillRect(0, 0, width, height);
-        ctx.font = "bold 40px Arial";
-        ctx.fillStyle = "black";
-        ctx.fillText(playlist[currentplaylist], width / 2 - ctx.measureText(playlist[currentplaylist]).width / 2, 100);
-        rectlookx = (width - (2 * (300 + 25 * 2) + 150)) / 2;
-        
-        if (window.screen.height < 1000) {
-        rectanglecircle(rectlookx, 200, 300, 300, 25, "darkred");
-        rectanglecircle(rectlookx + 5, 205, 290, 290, 25, "#ff4d4d");
-        rectanglecircle(rectlookx + 500, 200, 300, 300, 25, "darkgreen");
-        rectanglecircle(rectlookx + 505, 205, 290, 290, 25, "lightgreen");
-        } else {
-        rectanglecircle(rectlookx, 310, 300, 300, 25, "darkred");
-        rectanglecircle(rectlookx + 5, 315, 290, 290, 25, "#ff4d4d");
-        rectanglecircle(rectlookx + 500, 310, 300, 300, 25, "darkgreen");
-        rectanglecircle(rectlookx + 505, 315, 290, 290, 25, "lightgreen");
-        }
-        ctx.fillStyle = "black";
-        ctx.fillText("Lyric", 200 + 300 / 2 - ctx.measureText("lyric").width / 2, 350);
-        ctx.fillText("Analytics", 200 + 300 / 2 - ctx.measureText("analytics").width / 2, 400);
-        ctx.fillText("Playlist", 700 + 300 / 2 - ctx.measureText("Playlist").width / 2, 350);
-        ctx.fillText("Mood", 700 + 300 / 2 - ctx.measureText("Mood").width / 2, 400);
-        arrowloader();
-    } else if (page == 3) {
-        ctx.fillStyle = "lightblue";
-        ctx.fillRect(0, 0, width, height);
-        arrowloader();
-        // words = [];
-        // numberofwords = [];
-        for (var j = 0; j < words.length; j++) {
-            num3 = Math.round(25 * numberofwords[j] / numberofwords[0]);
-            ctx.font = num3 + "px Arial";
-        for (var i = 0; i < 1000; i++){
-            num1 = Math.random() * plotsize;
-            num2 = Math.random() * plotsize;
-            if (num1 + ctx.measureText(words[j]).width < plotsize && num2 + 10 < plotsize) {
-                counter = 0;
-                for (var k = 0; k < plotlist.length; k++) {
-                    if (false == (plotlist[k][1] <= num1 && (ctx.measureText(words[j]).width + num1) <= plotlist[k][3] && plotlist[k][2] <= num2 && (num2 + num3) <= plotlist[k][4])) {
-                        counter++;
-                    }
-                }
-                if (counter == plotlist.length) {
-                    plotlist.push([words[j], num1, num2, ctx.measureText(words[j]).width + num1, num2 + num3, num3])
-                    i = 10000000;
-                }
-            }
-        }
-        }
-        // console.log(plotlist);
-        for (var i = 0; i < plotlist.length; i++) {
-            ctx.font = plotlist[i][5] + "px Arial";
-            ctx.fillText(plotlist[i][0], plotlist[i][1] + 250, plotlist[i][2] + 250);
-        }
-    } else if (page == 4) {
-        ctx.fillStyle = "lightblue";
-        ctx.fillRect(0, 0, width, height);
-        arrowloader();
-    }
+    } 
 }
 pagerunner();
 var passValue = function (index) { 
@@ -354,37 +278,16 @@ var passValue = function (index) {
         ctx.font = "15px Arial";
         ctx.fillText("x: " + clickx, 10, 70);
         ctx.fillText("y: " + clicky, 10, 90);
-        if (clickx > 134 && clickx < 179 && clicky > 24 && clicky < 61 && page == 2) {
-            page = 1;
-            window.scrollTo(0, 0);
-            pagerunner();
-        }
-        if (clickx > 134 && clickx < 179 && clicky > 24 && clicky < 61 && (page == 3 || page == 4)) {
-            page = 2;
-            window.scrollTo(0, 0);
-            pagerunner();
-        }
-        if (clickx > rectlookx - 27 && clickx < rectlookx + 326 && clicky > 200 && clicky < 555 && page == 2) {
-            page = 3; 
-            window.scrollTo(0, 0);
-            pagerunner();
-        }
-        if (clickx > rectlookx + 500 - 25 - 1 && clickx < rectlookx + 801 + 25 && clicky > 200 && clicky < 555 && page == 2) {
-            page = 4;
-            window.scrollTo(0, 0);
-            pagerunner();
-        }
         if (page == 1) {
         for (var i = 0; i < playlength; i++) {
             var checkx = (width - 700) / 2 + 450 - 5;
             var checky = 345 + i * 200;
             if (clickx > checkx && clicky > checky && clickx < (checkx + 160) && clicky < (checky + 60)) {
-                // currentplaylist = tempPlaylist.indexOf([playlist[i]]);
-                currentplaylist = playlistnum[i]
+                currentplaylist = playlistnum[i];
                 passValue(currentplaylist);
-                page = 2;
-                window.scrollTo(0, 0);
-                pagerunner();
+                
+                // go to page 2
+                window.location.href = "http://127.0.0.1:5000/choosecontent";
             }
         }
         }
