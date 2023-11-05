@@ -34,21 +34,29 @@ def index():
 
     # Step 3. Signed in, display data
     spotify = spotipy.Spotify(auth_manager=auth_manager)
-    return render_template('index1.html', playlist_names=playlist_names(spotify), playlist_num_tracks=5)
+    playlist_cover_images(spotify)
+    return render_template('index1.html',  username=spotify.me()["display_name"], playlist_names=playlist_names(spotify), 
+                           playlist_num_tracks=num_songs_in_playlists(spotify), playlist_cover_images=playlist_cover_images(spotify))
 
-def playlist(spotify):
-    results = spotify.current_user_playlists(limit=50)
-    for i, item in enumerate(results["items"]):
-        print("%d %s" % (i, item["name"]))
-
-        print(item)
-        id = item["id"]
-        print(f'URL: {spotify.playlist_cover_image(id)}')
-        return item
 def playlist_names(spotify):
-    results = spotify.current_user_playlists(limit=50)["items"]
+    results = spotify.current_user_playlists(limit=10)["items"]
     names = [item["name"] for item in results]
     return names
+def num_songs_in_playlists(spotify):
+    results = spotify.current_user_playlists(limit=10)["items"]
+    num_songs =[]
+    for item in results:
+        print(item)
+        tracks = item["tracks"]["total"]
+        num_songs.append(tracks)
+    return num_songs
+def playlist_cover_images(spotify):
+    results = spotify.current_user_playlists(limit=10)["items"]
+    images = [spotify.playlist_cover_image(item["id"]) for item in results]
+    print(images)
+    return images
+def common_lyrics_in_playlist(spotify):
+    pass
 
 if __name__ == '__main__':
     app.debug = True

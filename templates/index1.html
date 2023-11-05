@@ -4,9 +4,21 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="/static/style2.css">
         <img id="Image1" style="display: none;" crossorigin src=""/>
+        <img id="Image2" style="display: none;" crossorigin src=""/>
+        <img id="Image3" style="display: none;" crossorigin src=""/>
+        <img id="Image4" style="display: none;" crossorigin src=""/>
+        <img id="Image5" style="display: none;" crossorigin src=""/>
+        <img id="Image6" style="display: none;" crossorigin src=""/>
+        <img id="Image7" style="display: none;" crossorigin src=""/>
+        <img id="Image8" style="display: none;" crossorigin src=""/>
+        <img id="Image9" style="display: none;" crossorigin src=""/>
+        <img id="Image10" style="display: none;" crossorigin src=""/>
         <script type="text/javascript"> // to transfer variables from flask to js
             var playlist_names = {{playlist_names | tojson}}
-            //var playlist_num_tracks = "{{playlist_num_tracks}}"
+            var playlist_num_tracks = {{playlist_num_tracks | tojson}}
+            var playlist_cover_images = {{playlist_cover_images | tojson}}
+            var username = "{{username}}"
+        
         </script>
         <canvas id="canvas" width="1200" height="3600"></canvas>
         <script src="https://code.jquery.com/jquery-2.1.0.js"></script> 

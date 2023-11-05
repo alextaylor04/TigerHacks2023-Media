@@ -1,6 +1,6 @@
 import openai
 
-API_KEY = 2#open("API_KEY", "r").read() FIXME: CHANGE BACK TO API_KEY
+API_KEY = open("OPENAPI_KEY", "r").read()
 openai.api_key = API_KEY
 
 def playlist_img(themes):
@@ -11,16 +11,15 @@ def playlist_theme(song_names):
     response = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
         messages = [
-            {"role:": "user", "content:": convert_to_prompt(song_names)}
-        ]
+            {"role": "user", "content": convert_to_prompt(song_names)}],
     )
-    return response
+    return response["choices"][0]["message"]["content"]
 
 def convert_to_prompt(song_names):
     num_songs = len(song_names)
     prompt = f"Using the following {num_songs} songs, reply with only three unique words that encapsulate the combined theme of the songs:"
     for i in range(num_songs):
-        prompt += f'\n{i+1}. ' + song_names[i]
+        prompt += f'\n{i+1}. ' + song_names[i] 
     return prompt
 
 
