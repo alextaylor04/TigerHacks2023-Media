@@ -1,6 +1,22 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-var playlist = playlist_names;
+var tempPlaylist = playlist_names;
+var tempsongnum = playlist_num_tracks;
+var tempImages = playlist_cover_images;
+var playlist = [];
+var songnum = [];
+var playlistnum = [];
+var images = ["", "", "", "", "", "", "", "", "", ""];
+for (var i = 0; i < tempPlaylist.length; i++) {
+    if (tempsongnum[i] > 0) {
+        playlist.push(tempPlaylist[i]);
+        songnum.push(tempsongnum[i]);
+        images.push(tempImages[i])
+        playlistnum.push(i);
+    }
+}
+
+var playlength = playlist.length;
 var canvasupdate = function (canwidth, canheight) {
     canvas.width = window.screen.width - canwidth;
     if (canheight != -1) {
@@ -12,15 +28,30 @@ var canvasupdate = function (canwidth, canheight) {
 // canvasupdate(0, 161);
 var width = canvas.width;
 var height = canvas.height;
+var rectlookx = 0;
 var cRect = canvas.getBoundingClientRect();
 var canvasx = Math.round(cRect.left)
 var canvasy = Math.round(cRect.top)
-var songnum = playlist_num_tracks;
 var page = 1;
-var currentplaylist = 0;
-var playlength = playlist.length;
-var username = username;
-var images = playlist_cover_images;
+var currentplaylist = 0; 
+// currentplaylist = playlistnum[playlist.indexOf("fellow")]
+var dict = {"test": 20, "Jimmy": 10, "timmy": 10, "kimmy": 10, "bimmy": 10, "cimmy": 10, "himmy": 9, "aimmy": 8, "limmy": 7};
+var words = [];
+var numberofwords = [];
+var num1 = 0;
+var num2 = 0;
+var num3 = 0;
+var plotsize = 250;
+var plotlist = [];
+var counter = 0;
+for (var key in dict) {
+  words.push(key);
+}
+for (var i = 0; i < words.length; i++) {
+    numberofwords.push(dict[words[i]]);
+}
+
+console.log(words);
 
 var circle = function (x, y, radius, fillCircle) {
     ctx.beginPath(); 
@@ -74,15 +105,22 @@ var playlistbox = function (x, y, width, height, num) {
 }
 var arrow = function (x, y, size, small) {
     ctx.beginPath();
-    ctx.moveTo(x + 7 * size + small, y + 6);
-    ctx.lineTo(x + 15 * size - small, y - 3 * size + small);
-    ctx.lineTo(x + 15 * size - small, y + 15 * size- small);
-    ctx.lineTo(x + 7 * size + small, y + 6 * size);
+    ctx.moveTo(x + 7 * size + small * 1.2, y + 6 * size);
+    ctx.lineTo(x + 15 * size - small, y - 3 * size + small * 2);
+    ctx.lineTo(x + 15 * size - small, y + 15 * size- small * 2);
+    ctx.lineTo(x + 7 * size + small * 1.2, y + 6 * size);
     ctx.closePath();
     ctx.fill();
-    ctx.fillRect(x + 15 * size, y + 2 * size, 15 * size, 8 * size);
+    ctx.fillRect(x + 14 * size - small * 2, y + 2 * size + small, 15 * size + small, 8 * size - small * 2);
     }
-var imageloader = function () {
+
+
+/*
+Due to issues with image loading time
+This function had to be extended and requires a use of verbose code
+In order to reduce the time of execution
+*/    
+var imageloader = function () { 
     if (images[0].length > 0) {
         document.getElementById("Image1").src = images[0][0].url;
     } else {
@@ -93,9 +131,11 @@ var imageloader = function () {
         ctx.drawImage(Image1, 0, 0, Image1.width, Image1.height, (width - 700) / 2 + 15, 315, 50, 50) 
     }
 
+
+
     if (playlength > 1) {
         if (images[1].length > 0) {
-            document.getElementById("Image2").src = images[1][0].url;
+            document.getElementById("Image2").src = images[1];
         } else {
             document.getElementById("Image2").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -107,7 +147,7 @@ var imageloader = function () {
 
     if (playlength > 2) {
         if (images[2].length > 0) {
-            document.getElementById("Image3").src = images[2][0].url;
+            document.getElementById("Image3").src = images[2];
         } else {
             document.getElementById("Image3").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -119,7 +159,7 @@ var imageloader = function () {
 
     if (playlength > 3) {
         if (images[3].length > 0) {
-            document.getElementById("Image4").src = images[3][0].url;
+            document.getElementById("Image4").src = images[3];
         } else {
             document.getElementById("Image4").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -131,7 +171,7 @@ var imageloader = function () {
 
     if (playlength > 4) {
         if (images[4].length > 0) {
-            document.getElementById("Image5").src = images[4][0].url;
+            document.getElementById("Image5").src = images[4];
         } else {
             document.getElementById("Image5").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -143,7 +183,7 @@ var imageloader = function () {
 
     if (playlength > 5) {
         if (images[5].length > 0) {
-            document.getElementById("Image6").src = images[5][0].url;
+            document.getElementById("Image6").src = images[5];
         } else {
             document.getElementById("Image6").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -155,7 +195,7 @@ var imageloader = function () {
 
     if (playlength > 6) {
         if (images[6].length > 0) {
-            document.getElementById("Image7").src = images[6][0].url;
+            document.getElementById("Image7").src = images[6];
         } else {
             document.getElementById("Image7").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -167,7 +207,7 @@ var imageloader = function () {
 
     if (playlength > 7) {
         if (images[7].length > 0) {
-            document.getElementById("Image8").src = images[7][0].url;
+            document.getElementById("Image8").src = images[7];
         } else {
             document.getElementById("Image8").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -179,7 +219,7 @@ var imageloader = function () {
 
     if (playlength > 8) {
         if (images[8].length > 0) {
-            document.getElementById("Image9").src = images[8][0].url;
+            document.getElementById("Image9").src = images[8];
         } else {
             document.getElementById("Image9").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -191,7 +231,7 @@ var imageloader = function () {
 
     if (playlength > 9) {
         if (images[9].length > 0) {
-            document.getElementById("Image10").src = images[9][0].url;
+            document.getElementById("Image10").src = images[9];
         } else {
             document.getElementById("Image10").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -201,6 +241,12 @@ var imageloader = function () {
         }
     }
 
+}
+var arrowloader = function () {
+        ctx.fillStyle = "black";
+        arrow(120, 30, 2, 0);
+        ctx.fillStyle = "grey";
+        arrow(120, 30, 2, 2);
 }
 var pagerunner = function () {
     if (page == 1) {
@@ -217,7 +263,7 @@ var pagerunner = function () {
     ctx.fillText("Enter What we do here", 250, 1005 + (playlength - 2) * 200);
     ctx.font = "50px Arial";
     ctx.fillStyle = "black";
-    ctx.fillText("Hello ", width / 2 - 50, 80);
+    ctx.fillText("Hello ", width / 2 - ctx.measureText("Hello").width / 2, 80);
     ctx.fillText(username, width / 2 - ctx.measureText(username).width / 2, 150)
     for (var i = 0; i < playlength; i++) {
     playlistbox((width - 700) / 2, 300 + i * 200, 700, 150, i);
@@ -226,22 +272,80 @@ var pagerunner = function () {
     } else if (page == 2) {
         ctx.fillStyle = "lightblue";
         ctx.fillRect(0, 0, width, height);
-        ctx.font = "40px Arial";
+        ctx.font = "bold 40px Arial";
         ctx.fillStyle = "black";
         ctx.fillText(playlist[currentplaylist], width / 2 - ctx.measureText(playlist[currentplaylist]).width / 2, 100);
-        rectanglecircle(200, 200, 300, 300, 25, "darkred");
-        rectanglecircle(205, 205, 290, 290, 25, "#ff4d4d");
+        rectlookx = (width - (2 * (300 + 25 * 2) + 150)) / 2;
+        
+        if (window.screen.height < 1000) {
+        rectanglecircle(rectlookx, 200, 300, 300, 25, "darkred");
+        rectanglecircle(rectlookx + 5, 205, 290, 290, 25, "#ff4d4d");
+        rectanglecircle(rectlookx + 500, 200, 300, 300, 25, "darkgreen");
+        rectanglecircle(rectlookx + 505, 205, 290, 290, 25, "lightgreen");
+        } else {
+        rectanglecircle(rectlookx, 310, 300, 300, 25, "darkred");
+        rectanglecircle(rectlookx + 5, 315, 290, 290, 25, "#ff4d4d");
+        rectanglecircle(rectlookx + 500, 310, 300, 300, 25, "darkgreen");
+        rectanglecircle(rectlookx + 505, 315, 290, 290, 25, "lightgreen");
+        }
         ctx.fillStyle = "black";
         ctx.fillText("Lyric", 200 + 300 / 2 - ctx.measureText("lyric").width / 2, 350);
         ctx.fillText("Analytics", 200 + 300 / 2 - ctx.measureText("analytics").width / 2, 400);
-        ctx.fillText("Playlist mood", 800, 400);
-        ctx.fillStyle = "black";
-        arrow(30, 30, 2, 0);
-        ctx.fillStyle = "grey";
-        arrow(30, 30, 2, 1);
+        ctx.fillText("Playlist", 700 + 300 / 2 - ctx.measureText("Playlist").width / 2, 350);
+        ctx.fillText("Mood", 700 + 300 / 2 - ctx.measureText("Mood").width / 2, 400);
+        arrowloader();
+    } else if (page == 3) {
+        ctx.fillStyle = "lightblue";
+        ctx.fillRect(0, 0, width, height);
+        arrowloader();
+        // words = [];
+        // numberofwords = [];
+        for (var j = 0; j < words.length; j++) {
+            num3 = Math.round(25 * numberofwords[j] / numberofwords[0]);
+            ctx.font = num3 + "px Arial";
+        for (var i = 0; i < 1000; i++){
+            num1 = Math.random() * plotsize;
+            num2 = Math.random() * plotsize;
+            if (num1 + ctx.measureText(words[j]).width < plotsize && num2 + 10 < plotsize) {
+                counter = 0;
+                for (var k = 0; k < plotlist.length; k++) {
+                    if (false == (plotlist[k][1] <= num1 && (ctx.measureText(words[j]).width + num1) <= plotlist[k][3] && plotlist[k][2] <= num2 && (num2 + num3) <= plotlist[k][4])) {
+                        counter++;
+                    }
+                }
+                if (counter == plotlist.length) {
+                    plotlist.push([words[j], num1, num2, ctx.measureText(words[j]).width + num1, num2 + num3, num3])
+                    i = 10000000;
+                }
+            }
+        }
+        }
+        // console.log(plotlist);
+        for (var i = 0; i < plotlist.length; i++) {
+            ctx.font = plotlist[i][5] + "px Arial";
+            ctx.fillText(plotlist[i][0], plotlist[i][1] + 250, plotlist[i][2] + 250);
+        }
+    } else if (page == 4) {
+        ctx.fillStyle = "lightblue";
+        ctx.fillRect(0, 0, width, height);
+        arrowloader();
     }
 }
 pagerunner();
+var passValue = function (index) { 
+    var value = index; 
+    $.ajax({ 
+        url: '/process', 
+        type: 'POST', 
+        data: { 'data': value }, 
+        success: function(response) { 
+            console.log(response)
+        }, 
+        error: function(error) { 
+            console.log(error); 
+        } 
+    }); 
+}
     var clicking = function (event) {
         var clickx = event.pageX - canvasx;
         var clicky = event.pageY - canvasy;
@@ -250,15 +354,39 @@ pagerunner();
         ctx.font = "15px Arial";
         ctx.fillText("x: " + clickx, 10, 70);
         ctx.fillText("y: " + clicky, 10, 90);
+        if (clickx > 134 && clickx < 179 && clicky > 24 && clicky < 61 && page == 2) {
+            page = 1;
+            window.scrollTo(0, 0);
+            pagerunner();
+        }
+        if (clickx > 134 && clickx < 179 && clicky > 24 && clicky < 61 && (page == 3 || page == 4)) {
+            page = 2;
+            window.scrollTo(0, 0);
+            pagerunner();
+        }
+        if (clickx > rectlookx - 27 && clickx < rectlookx + 326 && clicky > 200 && clicky < 555 && page == 2) {
+            page = 3; 
+            window.scrollTo(0, 0);
+            pagerunner();
+        }
+        if (clickx > rectlookx + 500 - 25 - 1 && clickx < rectlookx + 801 + 25 && clicky > 200 && clicky < 555 && page == 2) {
+            page = 4;
+            window.scrollTo(0, 0);
+            pagerunner();
+        }
+        if (page == 1) {
         for (var i = 0; i < playlength; i++) {
             var checkx = (width - 700) / 2 + 450 - 5;
             var checky = 345 + i * 200;
             if (clickx > checkx && clicky > checky && clickx < (checkx + 160) && clicky < (checky + 60)) {
-                currentplaylist = i;
+                // currentplaylist = tempPlaylist.indexOf([playlist[i]]);
+                currentplaylist = playlistnum[i]
+                passValue(currentplaylist);
                 page = 2;
                 window.scrollTo(0, 0);
                 pagerunner();
             }
+        }
         }
         if (clickx > 0 && clickx < 100) {
             // window.location.href = "http://www.w3schools.com";
