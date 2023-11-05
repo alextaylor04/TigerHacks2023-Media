@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FlaskApp</title>
-</head>
-<body>
-    <h1>Hello World!</h1>
-    <h2>Test page</h2>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/static/style2.css">
+        <img id="Image1" style="display: none;" crossorigin src=""/>
+        <script type="text/javascript"> // to transfer variables from flask to js
+            var playlist_names = {{playlist_names | tojson}}
+            //var playlist_num_tracks = "{{playlist_num_tracks}}"
+        </script>
+        <canvas id="canvas" width="1200" height="3600"></canvas>
+        <script src="https://code.jquery.com/jquery-2.1.0.js"></script> 
+        <script type="text/javascript" src="{{ url_for('static', filename='script.js')}}"></script>
+    </head>
+    <body>
+    </body>
 </html>

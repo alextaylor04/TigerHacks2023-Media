@@ -6,6 +6,7 @@ import ai_generated_output
 import lyrics
 import time
 import spotipy
+import sys
 
 load_dotenv('spotipy.env')
 
@@ -33,15 +34,21 @@ def index():
 
     # Step 3. Signed in, display data
     spotify = spotipy.Spotify(auth_manager=auth_manager)
-    playlist(spotify)
-    return render_template('index.html', test=1234)
+    return render_template('index1.html', playlist_names=playlist_names(spotify), playlist_num_tracks=5)
 
 def playlist(spotify):
     results = spotify.current_user_playlists(limit=50)
     for i, item in enumerate(results["items"]):
         print("%d %s" % (i, item["name"]))
+
+        print(item)
         id = item["id"]
         print(f'URL: {spotify.playlist_cover_image(id)}')
+        return item
+def playlist_names(spotify):
+    results = spotify.current_user_playlists(limit=50)["items"]
+    names = [item["name"] for item in results]
+    return names
 
 if __name__ == '__main__':
     app.debug = True
