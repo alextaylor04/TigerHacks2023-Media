@@ -1,5 +1,6 @@
 from flask import Flask, render_template, session, request, redirect
 from flask_session import Session
+from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 import cached_playlist_data
@@ -8,6 +9,7 @@ import spotipy
 load_dotenv('spotipy.env', override=True)
 
 app = Flask(__name__, template_folder='templates', static_url_path='/static')
+CORS(app)
 app.config['SECRET_KEY'] = os.urandom(64)
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = './.flask_session/'
@@ -53,8 +55,16 @@ def lyrics():
 @app.route('/playlistmood')
 def mood():
     cached_playlist_data.CachedPlaylistData.cache_open_ai_theme(SpotifyCache.spotify, PlaylistIndexCache.index)
-    cached_playlist_data.CachedPlaylistData.cache_open_ai_images(SpotifyCache.spotify, PlaylistIndexCache.index)
-    return render_template('mood.html')
+    cached_playlist_data.CachedPlaylistData.cache_open_ai_images()
+
+    mood_str = cached_playlist_data.CachedPlaylistData.open_ai_theme
+    mood_str = mood_str.replace(".","")
+    mood_str = mood_str.replace(",","")
+    
+    images = []
+    for i in range(5):
+        images.append(cached_playlist_data.CachedPlaylistData.open_ai_images["data"][i]["url"])
+    return render_template('mood.html', moods=mood_str.split(" "), images=images)
 
 @app.route('/choosecontent')
 def choose_content():

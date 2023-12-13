@@ -1,0 +1,22 @@
+<html>
+
+<body>
+    <link rel="stylesheet" href="/static/style2.css">
+    <img id="Image1" style="display: none;" crossorigin src=""/>
+    <img id="Image2" style="display: none;" crossorigin src=""/>
+    <img id="Image3" style="display: none;" crossorigin src=""/>
+    <img id="Image4" style="display: none;" crossorigin src=""/>
+    <img id="Image5" style="display: none;" crossorigin src=""/>
+    <canvas id="canvas" width="2200" height="1500"></canvas>
+    <script src="https://code.jquery.com/jquery-2.1.0.js"></script> 
+    <script type="text/javascript"> // to transfer variables from flask to js
+        
+        var moods = {{moods | tojson}}
+        var mood_images = {{images | tojson}}
+    
+    </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='mood.js')}}"></script>
+
+    </script>
+</body>
+</html>

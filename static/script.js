@@ -121,7 +121,7 @@ var imageloader = function () {
 
     if (playlength > 1) {
         if (images[1].length > 0) {
-            document.getElementById("Image2").src = images[1];
+            document.getElementById("Image2").src = images[1][0].url;
         } else {
             document.getElementById("Image2").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -133,7 +133,7 @@ var imageloader = function () {
 
     if (playlength > 2) {
         if (images[2].length > 0) {
-            document.getElementById("Image3").src = images[2];
+            document.getElementById("Image3").src = images[2][0].url;
         } else {
             document.getElementById("Image3").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -145,7 +145,7 @@ var imageloader = function () {
 
     if (playlength > 3) {
         if (images[3].length > 0) {
-            document.getElementById("Image4").src = images[3];
+            document.getElementById("Image4").src = images[3][0].url;
         } else {
             document.getElementById("Image4").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -157,7 +157,7 @@ var imageloader = function () {
 
     if (playlength > 4) {
         if (images[4].length > 0) {
-            document.getElementById("Image5").src = images[4];
+            document.getElementById("Image5").src = images[4][0].url;
         } else {
             document.getElementById("Image5").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -169,7 +169,7 @@ var imageloader = function () {
 
     if (playlength > 5) {
         if (images[5].length > 0) {
-            document.getElementById("Image6").src = images[5];
+            document.getElementById("Image6").src = images[5][0].url;
         } else {
             document.getElementById("Image6").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -181,7 +181,7 @@ var imageloader = function () {
 
     if (playlength > 6) {
         if (images[6].length > 0) {
-            document.getElementById("Image7").src = images[6];
+            document.getElementById("Image7").src = images[6][0].url;
         } else {
             document.getElementById("Image7").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -193,7 +193,7 @@ var imageloader = function () {
 
     if (playlength > 7) {
         if (images[7].length > 0) {
-            document.getElementById("Image8").src = images[7];
+            document.getElementById("Image8").src = images[7][0].url;
         } else {
             document.getElementById("Image8").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -205,7 +205,7 @@ var imageloader = function () {
 
     if (playlength > 8) {
         if (images[8].length > 0) {
-            document.getElementById("Image9").src = images[8];
+            document.getElementById("Image9").src = images[8][0].url;
         } else {
             document.getElementById("Image9").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -217,7 +217,7 @@ var imageloader = function () {
 
     if (playlength > 9) {
         if (images[9].length > 0) {
-            document.getElementById("Image10").src = images[9];
+            document.getElementById("Image10").src = images[9][0].url;
         } else {
             document.getElementById("Image10").src = "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
         }
@@ -240,14 +240,15 @@ var pagerunner = function () {
     width = canvas.width;
     height = canvas.height;
     ctx.font = "15px Arial";
-    ctx.fillStyle = "lightblue";
+    ctx.fillStyle = "black";
+    console.log("test")
     ctx.fillRect(0, 0, width, height);
     ctx.font = "25px Arial"
-    ctx.fillSyle = "black";
+    ctx.fillSyle = "lightgreen";
     ctx.fillText("Brought to you by Music Unmasked", 100, 1400);
     ctx.font = "50px Arial";
-    ctx.fillStyle = "black";
-    ctx.fillText("Hello ", width / 2 - ctx.measureText("Hello").width / 2, 80);
+    ctx.fillStyle = "lightgreen";
+    ctx.fillText("Welcome and Choose your Playlist", width / 2 - ctx.measureText("Welcome and Choose your Playlist").width / 2, 80);
     ctx.fillText(username, width / 2 - ctx.measureText(username).width / 2, 150)
     for (var i = 0; i < playlength; i++) {
     playlistbox((width - 700) / 2, 300 + i * 200, 700, 150, i);

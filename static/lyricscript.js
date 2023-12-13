@@ -52,7 +52,7 @@ var arrow = function (x, y, size, small) {
         arrow(120, 30, 2, 2);
 }
 //console.log(words);
-ctx.fillStyle = "lightblue";
+ctx.fillStyle = "black";
         ctx.fillRect(0, 0, width, height);
         arrowloader();
         // words = [];
@@ -78,6 +78,7 @@ ctx.fillStyle = "lightblue";
         }
         }
         // console.log(plotlist);
+        ctx.fillStyle = "lightgreen"
         for (var i = 0; i < plotlist.length; i++) {
             ctx.font = plotlist[i][5] + "px Arial";
             ctx.fillText(plotlist[i][0], plotlist[i][1] + 250, plotlist[i][2] + 250);

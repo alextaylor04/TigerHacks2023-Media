@@ -8,7 +8,7 @@ var rectlookx = 0;
 var cRect = canvas.getBoundingClientRect();
 var canvasx = Math.round(cRect.left)
 var canvasy = Math.round(cRect.top)
-var curplaylist = ""; 
+var curplaylist = ""; // include playlist name
 var circle = function (x, y, radius, fillCircle) {
     ctx.beginPath(); 
     ctx.arc(x, y, radius, 0, Math.PI * 2, false);
@@ -32,10 +32,10 @@ var rectanglecircle = function (rectcirx, rectciry, rectlength, rectwidth, dif, 
     ctx.fillRect(rectcirx - dif, rectciry + dif, dif, rectwidth);
     circle(rectcirx + rectlength, rectciry + rectwidth + dif, dif, true);
 }
-ctx.fillStyle = "lightblue";
+ctx.fillStyle = "black";
         ctx.fillRect(0, 0, width, height);
         ctx.font = "bold 40px Arial";
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "lightgreen";
         ctx.fillText(curplaylist, width / 2 - ctx.measureText(curplaylist).width / 2, 100);
         rectlookx = (width - (2 * (300 + 25 * 2) + 150)) / 2;
         console.log(rectlookx)
@@ -52,10 +52,10 @@ ctx.fillStyle = "lightblue";
         rectanglecircle(rectlookx + 505, 315, 290, 290, 25, "lightgreen");
         }
         ctx.fillStyle = "black";
-        ctx.fillText("Lyric", 200 + 300 / 2 - ctx.measureText("lyric").width / 2, 350);
-        ctx.fillText("Analytics", 200 + 300 / 2 - ctx.measureText("analytics").width / 2, 400);
-        ctx.fillText("Playlist", 700 + 300 / 2 - ctx.measureText("Playlist").width / 2, 350);
-        ctx.fillText("Mood", 700 + 300 / 2 - ctx.measureText("Mood").width / 2, 400);
+        ctx.fillText("Lyric", rectlookx + 300 / 2 - ctx.measureText("lyric").width / 2, 450);
+        ctx.fillText("Analytics", rectlookx + 300 / 2 - ctx.measureText("analytics").width / 2, 500);
+        ctx.fillText("Playlist",  rectlookx + 500 + 300 / 2 - ctx.measureText("Playlist").width / 2, 450);
+        ctx.fillText("Mood", rectlookx + 500 + 300 / 2 - ctx.measureText("Mood").width / 2, 500);
         // arrowloader();
         var clicking = function (event) {
             var clickx = event.pageX - canvasx;
