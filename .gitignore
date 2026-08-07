@@ -2,3 +2,8 @@ spotipy.env
 OPENAPI_KEY
 LYRICS_API_TOKEN
 .flask_session/
+
+# Runtime artifacts, committed by mistake; untracked 2026-08-06.
+__pycache__/
+*.pyc
+.flask_session/
