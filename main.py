@@ -1,10 +1,14 @@
-from flask import Flask, render_template, session, request, redirect
+from flask import Flask, render_template, session, request, redirect, send_file
 from flask_session import Session
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 import cached_playlist_data
 import spotipy
+import urllib.request
+from PIL import Image
+import base64
+import io
 
 load_dotenv('spotipy.env', override=True)
 
@@ -23,6 +27,9 @@ class PlaylistIndexCache:
     index = None
     def __init__(self, index_var):
         PlaylistIndexCache.index = index_var
+@app.route('/image/<filename>', methods=['GET'])
+def serve_image(filename):
+    return send_file(f'images/{filename}', mimetype='image/png')
 
 @app.route('/')
 def index():
@@ -38,7 +45,7 @@ def index():
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
         # Step 1. Display sign in link when no token
         auth_url = auth_manager.get_authorize_url()
-        return f'<h2><a href="{auth_url}">Sign in</a></h2>'
+        return render_template('login.html', link=auth_url) #f'<h2><a href="{auth_url}">Sign in</a></h2>'
 
     # Step 3. Signed in, display data
 
@@ -55,16 +62,16 @@ def lyrics():
 @app.route('/playlistmood')
 def mood():
     cached_playlist_data.CachedPlaylistData.cache_open_ai_theme(SpotifyCache.spotify, PlaylistIndexCache.index)
-    cached_playlist_data.CachedPlaylistData.cache_open_ai_images()
+    # cached_playlist_data.CachedPlaylistData.cache_open_ai_images()
 
     mood_str = cached_playlist_data.CachedPlaylistData.open_ai_theme
     mood_str = mood_str.replace(".","")
     mood_str = mood_str.replace(",","")
+
     
-    images = []
-    for i in range(5):
-        images.append(cached_playlist_data.CachedPlaylistData.open_ai_images["data"][i]["url"])
-    return render_template('mood.html', moods=mood_str.split(" "), images=images)
+    # for i in range():
+    # urllib.request.urlretrieve(cached_playlist_data.CachedPlaylistData.open_ai_images["data"][0]["url"], "images/img" + str(0) + ".png")
+    return render_template('mood.html', moods=mood_str.split(" "))
 
 @app.route('/choosecontent')
 def choose_content():

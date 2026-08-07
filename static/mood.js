@@ -6,6 +6,9 @@ var clicking = function (event) {
     ctx.font = "15px Arial";
     ctx.fillText("x: " + clickx, 10, 70);
     ctx.fillText("y: " + clicky, 10, 90);
+    if (clickx > 134 && clickx < 179 && clicky > 24 && clicky < 61 && page == 4) {
+        // link to main
+    }
 }
 $("body").click(clicking);
 
@@ -18,18 +21,36 @@ var height = canvas.height;
 var cRect = canvas.getBoundingClientRect();
 var canvasx = Math.round(cRect.left)
 var canvasy = Math.round(cRect.top)
-var images = mood_images
+var images = ["https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg", "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg", "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg", "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg", "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg"];
 var Image1 = document.getElementById("Image1");
 var Image2 = document.getElementById("Image2");
 var Image3 = document.getElementById("Image3");
 var Image4 = document.getElementById("Image4");
 var Image5 = document.getElementById("Image5");
-console.log(images[0])
-document.getElementById("Image1").src = images.length > 0 ? images[0] : "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
-document.getElementById("Image2").src = images.length > 1 ? images[1] : "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
-document.getElementById("Image3").src = images.length > 2 ? images[2] : "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
-document.getElementById("Image4").src = images.length > 3 ? images[3] : "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
-document.getElementById("Image5").src = images.length > 4 ? images[4] : "https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg";
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Simulate loading images after generation
+    setTimeout(function() { // Replace with actual condition or event when images are ready
+        document.getElementById("Image1").src = '/image/img0.png';
+        document.getElementById("Image2").src = '/image/img1.png';
+        document.getElementById("Image3").src = '/image/img2.png';
+        document.getElementById("Image4").src = '/image/img3.png';
+        document.getElementById("Image5").src = '/image/img4.png';
+
+        var webloader = 0;
+        for (var i = 0; i < 5; i++) {
+            var tempImg = document.getElementById("Image" + (i + 1));
+            tempImg.onload = function() {
+                webloader++
+                if (webloader === 5) {
+                    runProgram();
+                }
+            }
+        }
+    }, 5000); // Adjust the timeout as necessary
+});
+;
 console.log(Image1.width);
 console.log(Image1.height)
     // ctx.drawImage("name", imagex, imagey, width of clipped image, height of clipped image, x, y, width, height)
@@ -59,89 +80,34 @@ var rectanglecircle = function (rectcirx, rectciry, rectlength, rectwidth, dif, 
 }
 // rectanglecircle(x, y, length, width, circle #, color);
 
+var runProgram = function () {
+    ctx.fillStyle = "#191414";
+    ctx.fillRect(0,0,width,height);
 
-ctx.fillStyle = "#191414";
-ctx.fillRect(0,0,width,height);
+    ctx.fillStyle = "#1ed760";
+    ctx.font = "80px Georgia";
+    ctx.fillText("Playlist Name", width / 2 - ctx.measureText("Playlist Name").width / 2, 100);
 
-ctx.fillStyle = "#1ed760";
-ctx.font = "80px Georgia";
-ctx.fillText("Playlist Name", width / 2 - ctx.measureText("Playlist Name").width / 2, 100);
+    // rectanglecircle(200, 130, 200, 200, 10, "#1ed760");
 
-rectanglecircle(200, 100, 200, 200, 10, "#1ed760");
+    ctx.fillStyle = "#1ed760";
+    ctx.font = "40px Georgia";
+    ctx.fillText("What is the mood of your playlist:", 655, 210);
 
-ctx.fillStyle = "#1ed760";
-ctx.font = "40px Georgia";
-ctx.fillText("What is the mood of your playlist:", 655, 210);
+    rectanglecircle(730, 290, 500, 200, 25, "#1ed760");
 
-rectanglecircle(730, 290, 500, 200, 25, "#1ed760");
+    var mood1=moods;
 
-var mood1=moods;
-
-ctx.fillStyle = "#191414";
-ctx.font = "30px Georgia";
-ctx.fillText( " • " + mood1[0], 800, 350);
-ctx.fillStyle = "#191414";
-ctx.font = "30px Georgia";
-ctx.fillText( " • " + mood1[1], 800, 400);
-ctx.fillStyle = "#191414";
-ctx.font = "30px Georgia";
-ctx.fillText( " • " + mood1[2], 800, 450);
-
-Image1.onload = function () {
-    ctx.drawImage(Image1, 300, 300);
+    ctx.fillStyle = "#191414";
+    ctx.font = "30px Georgia";
+    ctx.fillText( " • " + mood1[0], 800, 350);
+    ctx.fillStyle = "#191414";
+    ctx.font = "30px Georgia";
+    ctx.fillText( " • " + mood1[1], 800, 400);
+    ctx.fillStyle = "#191414";
+    ctx.font = "30px Georgia";
+    ctx.fillText( " • " + mood1[2], 800, 450);
+    var desiredSize = 200;
+    var imgMulti = desiredSize / Image1.width;
+    ctx.drawImage(Image1, 0, 0, Image1.width, Image1.height, 190, 250, Image1.width * imgMulti, Image1.height * imgMulti);
 }
-
-Image2.onload = function () {
-    ctx.drawImage(Image2, 500, 500);
-    }
-
-var pickImage = function (num1) {
-    console.log(num1);
-    if (num1 == 1) {
-        Image1.onload = function () {
-        ctx.drawImage(Image1, 300, 300);
-        }
-    } else if (num1 == 2) {
-        Image2.onload = function () {
-        ctx.drawImage(Image2, 300, 300);
-        }
-    } else if (num1 == 3) {
-        Image3.onload = function () {
-        ctx.drawImage(Image3, 300, 300);
-        }
-    } else if (num1 == 4) {
-        Image4.onload = function () {
-        ctx.drawImage(Image4, 300, 300);
-        }
-    } else if (num1 == 5) {
-        Image5.onload = function () {
-        ctx.drawImage(Image5, 300, 300);
-        }
-    }
-
-}
-var num1 = 1;
-var Ball = function () {
-
-};
-Ball.prototype.moving = function (guess) {
-    console.log(0)
-    if (guess === "ArrowLeft") {
-        if (num1 > 1)  {
-            num1--;
-            pickImage(num1);
-
-        }
-    } else if (guess === "ArrowRight") {
-        if (num1 < 5)  {
-            num1++;
-            pickImage(num1);
-        }
-    }
-}
-var ball = new Ball();
-$("body").keydown(function (event) {
-    var whatletteris = event.key;
-    console.log("test");
-    ball.moving(whatletteris);
-});
