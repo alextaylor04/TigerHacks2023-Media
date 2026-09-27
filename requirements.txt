@@ -1,0 +1,11 @@
+# Direct dependencies, pinned to the versions that were in the committed .venv
+# (extracted 2026-09-26 when the .venv was untracked). openai stays on 0.28.x:
+# the code calls openai.Image.create and openai.ChatCompletion, which 1.x removed.
+flask==3.0.0
+flask-cors==4.0.0
+flask-session==0.5.0
+spotipy==2.23.0
+lyricsgenius==3.0.1
+openai==0.28.1
+Pillow==10.1.0
+python-dotenv==1.0.0

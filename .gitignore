@@ -7,3 +7,7 @@ LYRICS_API_TOKEN
 __pycache__/
 *.pyc
 .flask_session/
+
+# The virtualenv was committed at the hackathon; untracked 2026-09-26.
+# requirements.txt carries its direct dependencies, pinned.
+.venv/
